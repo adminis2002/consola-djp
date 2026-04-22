@@ -138,21 +138,7 @@
                     window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(busqueda), "_blank");
                 }
 
-                // COMANDO: ABRIR WORD (Forma directa)
-                if (voz.includes("abre word") || voz.includes("abrir word")) {
-                    window.location.href = "ms-word:nft"; 
-                  }
-
-               // COMANDO: ABRIR EXCEL (Forma directa)
-                if (voz.includes("abre excel") || voz.includes("abrir excel")) {
-                window.location.href = "ms-excel:nft";
-               }
-
-                // COMANDO: ABRIR WHATSAPP
-                if (voz.includes("abre whatsapp")) {
-                    window.open("https://web.whatsapp.com/", "_blank");
-                }
-            };
+             };
 
             recognition.onend = () => {
                 // Reinicia automáticamente para que siempre esté escuchando
