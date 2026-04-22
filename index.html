@@ -2,45 +2,76 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Asistente">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="icon" type="image/x-icon" href="LOGO.ICO.ico">
+    <link rel="apple-touch-icon" href="LOGO.ICO.ico">
     <title>ASISTENTE REMOTO - JOSUE .P</title>
+    
     <style>
+        * { box-sizing: border-box; }
         body { 
             background: #000; color: #0f0; font-family: 'Courier New', monospace; 
             display: flex; flex-direction: column; justify-content: center; 
             align-items: center; height: 100vh; margin: 0; overflow: hidden;
+            padding: 20px;
         }
+
+        /* Contenedor principal centrado */
+        .container {
+            display: flex; flex-direction: column; justify-content: center; 
+            align-items: center; width: 100%; height: 100%;
+        }
+
         .box { 
-            border: 2px solid #0f0; padding: 30px; border-radius: 15px; 
-            box-shadow: 0 0 20px #0f0; width: 85%; max-width: 450px; 
+            border: 2px solid #0f0; padding: 40px 20px; border-radius: 20px; 
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3); width: 100%; max-width: 400px; 
+            display: flex; flex-direction: column; align-items: center;
         }
-        .logo-img { width: 120px; filter: drop-shadow(0 0 10px #0f0); margin-bottom: 15px; }
+
+        /* Icono centrado y ajustado */
+        .logo-img { 
+            width: 140px; height: 140px; object-fit: contain;
+            filter: drop-shadow(0 0 15px #0f0); margin-bottom: 25px; 
+        }
+
         input {
             background: #111; border: 1px solid #0f0; color: #0f0;
-            padding: 12px; margin: 10px; width: 80%; text-align: center; outline: none;
+            padding: 15px; margin: 10px 0; width: 90%; text-align: center; 
+            outline: none; font-size: 16px; border-radius: 10px;
         }
-        #status { font-size: 1.2em; color: #ffeb3b; font-weight: bold; margin-top: 15px; }
+
+        #status { font-size: 1.1em; color: #ffeb3b; font-weight: bold; margin-top: 20px; }
         .hidden { display: none !important; }
-        #error-msg { color: red; font-size: 0.8em; min-height: 1.2em; }
+        #log-voz { font-size: 0.8em; color: #0a0; margin-top: 15px; min-height: 1.2em; text-align: center; }
+        #error-msg { color: red; font-size: 0.9em; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-    <div id="login-screen">
-        <img src="LOGO.ICO.ico" class="logo-img" alt="LOGO">
-        <h2>SISTEMA DE ACCESO</h2>
-        <input type="text" id="user" placeholder="USUARIO" autocomplete="off">
-        <input type="password" id="pass" placeholder="CONTRASEÑA">
-        <div id="error-msg"></div>
-        <p style="font-size: 0.7em; color: #555;">PRESIONA ENTER PARA INGRESAR</p>
-    </div>
+    <div class="container">
+        <div id="login-screen" class="box">
+            <img src="LOGO.ICO.ico" class="logo-img" alt="LOGO">
+            <h2 style="margin: 0 0 20px 0;">SISTEMA ACCESO</h2>
+            <input type="text" id="user" placeholder="USUARIO" autocomplete="off">
+            <input type="password" id="pass" placeholder="CONTRASEÑA">
+            <div id="error-msg"></div>
+            <button onclick="validarAcceso()" style="margin-top: 15px; background: #0f0; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer;">ENTRAR</button>
+        </div>
 
-    <div id="main-content" class="box hidden">
-        <img src="LOGO.ICO.ico" class="logo-img" alt="LOGO">
-        <h2>ASISTENTE YOUTUBE</h2>
-        <div id="status">SISTEMA LISTO</div>
-        <div id="log-voz" style="font-size: 0.8em; color: #0a0; margin-top: 10px;"></div>
-        <p style="color: #888; font-size: 0.9em;">Di: "Quiero [nombre de la música]"</p>
+        <div id="main-content" class="box hidden">
+            <img src="LOGO.ICO.ico" class="logo-img" alt="LOGO">
+            <h2 style="margin: 0;">ASISTENTE</h2>
+            <div id="status">SISTEMA LISTO</div>
+            <div id="log-voz"></div>
+            <p style="color: #888; font-size: 0.8em; margin-top: 20px;">DI: "QUIERO [MUSICA]"</p>
+        </div>
     </div>
 
     <script>
@@ -51,9 +82,7 @@
         // VALIDACIÓN CON ENTER
         [userIn, passIn].forEach(input => {
             input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    validarAcceso();
-                }
+                if (e.key === 'Enter') validarAcceso();
             });
         });
 
@@ -63,7 +92,7 @@
                 document.getElementById('main-content').classList.remove('hidden');
                 iniciarVoz();
             } else {
-                errorMsg.innerText = "CONTRASEÑA INCORRECTA";
+                errorMsg.innerText = "DATOS INCORRECTOS";
                 passIn.value = "";
                 passIn.focus();
             }
@@ -72,7 +101,7 @@
         function iniciarVoz() {
             window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!window.SpeechRecognition) {
-                alert("Para mejor experiencia usa Brave Browser");
+                alert("Usa Brave para modo App");
                 return;
             }
 
@@ -88,19 +117,16 @@
 
             recognition.onresult = (event) => {
                 const voz = event.results[event.results.length - 1][0].transcript.toLowerCase();
-                document.getElementById('log-voz').innerText = "Pedido: " + voz;
+                document.getElementById('log-voz').innerText = "Voz: " + voz;
 
                 if (voz.includes("quiero")) {
                     const busqueda = voz.split("quiero").pop().trim();
-                    // En celular, abrir en pestaña nueva permite que la anterior siga sonando
-                    // hasta que el sistema operativo priorice la nueva.
+                    // Abrir en pestaña nueva para no cortar la voz del asistente
                     window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(busqueda)}`, "_blank");
                 }
             };
 
-            recognition.onerror = () => recognition.stop();
             recognition.onend = () => recognition.start();
-            
             recognition.start();
         }
     </script>
