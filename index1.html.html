@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Consola DJP">
+    
+    <link rel="icon" type="image/png" href="icono_djp.png">
+    <link rel="apple-touch-icon" href="icono_djp.png">
+    <title>CONSOLA DJP - LESLY</title>
+    
+    <style>
+        body { 
+            background: #000; 
+            color: #0f0; 
+            font-family: 'Courier New', monospace; 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .box { 
+            border: 2px solid #0f0; 
+            padding: 20px; 
+            border-radius: 15px; 
+            box-shadow: 0 0 20px #0f0; 
+            width: 85%; 
+            max-width: 400px; 
+        }
+        /* Tu logo de leopardo dentro de la app */
+        .logo-img { 
+            width: 150px; 
+            filter: drop-shadow(0 0 10px #0f0); 
+            margin-bottom: 20px; 
+        }
+        #status { font-size: 1.2em; color: red; font-weight: bold; margin-top: 15px; }
+        .instruccion { color: #888; font-size: 0.9em; }
+    </style>
+</head>
+<body onclick="iniciarAsistente()">
+
+    <div class="box">
+        <img src="icono_djp.png" class="logo-img" alt="LOGO DJP">
+        <h2>CONSOLA DJP</h2>
+        <div id="status">TOCA PANTALLA PARA ACTIVAR</div>
+        <p class="instruccion">Di: "Quiero [música]"</p>
+    </div>
+
+    <script>
+        let recognition;
+        function iniciarAsistente() {
+            // ... (tu código de reconocimiento de voz actual que ya tienes)
+            window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!window.SpeechRecognition) { alert("Usa Brave o Chrome"); return; }
+            
+            recognition = new SpeechRecognition();
+            recognition.lang = 'es-PE';
+            recognition.continuous = true;
+
+            recognition.onstart = () => { 
+                document.getElementById('status').innerText = "🔴 ESCUCHANDO..."; 
+                document.getElementById('status').style.color = "red";
+            };
+            
+            recognition.onresult = (event) => {
+                const voz = event.results[event.results.length - 1][0].transcript.toLowerCase();
+                if (voz.includes("quiero")) {
+                    const busqueda = voz.split("quiero").pop().trim();
+                    window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(busqueda), "_blank");
+                }
+            };
+
+            recognition.onend = () => recognition.start();
+            recognition.start();
+        }
+    </script>
+</body>
+</html>
