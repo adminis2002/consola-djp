@@ -1,0 +1,20 @@
+{
+  "name": "Consola DJP",
+  "short_name": "DJP",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff00",
+  "icons": [
+    {
+      "src": "LOGO.ICO.ico",
+      "sizes": "192x192",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "LOGO.ICO.ico",
+      "sizes": "512x512",
+      "type": "image/x-icon"
+    }
+  ]
+}
