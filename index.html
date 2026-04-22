@@ -138,15 +138,15 @@
                     window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(busqueda), "_blank");
                 }
 
-                // COMANDO: ABRIR WORD
+                // COMANDO: ABRIR WORD (Forma directa)
                 if (voz.includes("abre word") || voz.includes("abrir word")) {
-                    window.open("ms-word:ofe|u|https://www.office.com/launch/word", "_blank");
-                }
+                    window.location.href = "ms-word:nft"; 
+                  }
 
-                // COMANDO: ABRIR EXCEL
+               // COMANDO: ABRIR EXCEL (Forma directa)
                 if (voz.includes("abre excel") || voz.includes("abrir excel")) {
-                    window.open("ms-excel:ofe|u|https://www.office.com/launch/excel", "_blank");
-                }
+                window.location.href = "ms-excel:nft";
+               }
 
                 // COMANDO: ABRIR WHATSAPP
                 if (voz.includes("abre whatsapp")) {
