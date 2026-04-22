@@ -9,12 +9,13 @@
     {
       "src": "LOGO.ICO.ico",
       "sizes": "192x192",
-      "type": "image/x-icon"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "LOGO.ICO.ico",
       "sizes": "512x512",
-      "type": "image/x-icon"
+      "type": "image/png"
     }
   ]
 }
