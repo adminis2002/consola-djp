@@ -8,9 +8,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Consola DJP">
     
-    <link rel="icon" type="image/png" href="icono_djp.png">
-    <link rel="apple-touch-icon" href="icono_djp.png">
-    <title>CONSOLA DJP - LESLY</title>
+    <link rel="icon" type="image/png" href="icono_djp.png.ico">
+    <link rel="apple-touch-icon" href="icono_djp.png.ico">  
+    <link rel="manifest" href="manifest.json">
+    <title>CONSOLA DJP - JOSUE .P</title>
     
     <style>
         body { 
@@ -46,12 +47,11 @@
 <body onclick="iniciarAsistente()">
 
     <div class="box">
-        <img src="icono_djp.png" class="logo-img" alt="LOGO DJP">
+        <img src="icono_djp.png.ico" class="logo-img" alt="LOGO DJP">
         <h2>CONSOLA DJP</h2>
         <div id="status">TOCA PANTALLA PARA ACTIVAR</div>
         <p class="instruccion">Di: "Quiero [música]"</p>
-    </div>
-
+    </div>    
     <script>
         let recognition;
         function iniciarAsistente() {
