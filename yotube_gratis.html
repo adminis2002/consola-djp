@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CONSOLA JOSUÉ PRADA</title>
+    <style>
+        /* Estilo Matrix Directo */
+        body { background-color: #000; color: #0f0; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .box { border: 2px solid #0f0; display: inline-block; padding: 30px; background: #111; box-shadow: 0 0 20px #0f0; border-radius: 10px; }
+        input { padding: 10px; margin: 10px; background: #000; border: 1px solid #0f0; color: #0f0; width: 200px; font-size: 18px; }
+        button { padding: 10px 20px; background: #0f0; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 16px; }
+        #appSection { display: none; }
+        .status { font-size: 20px; color: red; margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="loginSection">
+        <div class="box">
+            <h2>ACCESO ADMIN</h2>
+            <input type="text" id="u" placeholder="Usuario"><br>
+            <input type="password" id="p" placeholder="Password"><br>
+            <button onclick="entrar()">ENTRAR AL SISTEMA</button>
+        </div>
+    </div>
+
+    <div id="appSection">
+        <div class="box">
+            <h1>SISTEMA JOSUÉ PRADA</h1>
+            <div id="st" class="status">🔴 ESCUCHANDO...</div>
+            <p style="color:white">Di: "Quiero [música]"</p>
+            <p id="vozEscuchada" style="color:#888"></p>
+        </div>
+    </div>
+
+    <script>
+        function entrar() {
+            // Usuario: admin | Pass: admin123
+            if(document.getElementById('u').value === "admin" && document.getElementById('p').value === "admin123") {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('appSection').style.display = 'block';
+                iniciarMicro();
+            } else {
+                alert("DATOS INCORRECTOS");
+            }
+        }
+
+        function iniciarMicro() {
+            window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const rec = new SpeechRecognition();
+            rec.lang = 'es-PE';
+            rec.continuous = true;
+
+            rec.onresult = (e) => {
+                const texto = e.results[e.results.length - 1][0].transcript.toLowerCase();
+                document.getElementById('vozEscuchada').innerText = "Dijiste: " + texto;
+
+                if (texto.includes("quiero") || texto.includes("liquido")) {
+                    let accion = texto.includes("quiero") ? "quiero" : "liquido";
+                    const busqueda = texto.split(accion).pop().trim();
+                    
+                    if (busqueda) {
+                        // Abre YouTube directo en Brave
+                        window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(busqueda), "_blank");
+                    }
+                }
+            };
+
+            rec.onend = () => rec.start(); // No se apaga nunca
+            rec.start();
+        }
+    </script>
+</body>
+</html>
